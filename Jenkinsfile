@@ -1,18 +1,22 @@
 pipeline {
-    agent any
- environment {
-    CI = 'true'
- }
- stages{
-    stage ('build') {
-        steps {
-            sh 'npm install'
+    agent {
+        docker {
+            image 'node:lts-alpine'
         }
     }
-    stage ('test') {
-        steps {
-            sh './jenkins/scrips/test.sh'
+    environment {
+        CI = 'true'
+    }
+    stages {
+        stage ('build') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage ('test') {
+            steps {
+                sh './jenkins/scripts/test.sh'
+            }
         }
     }
- }
 }
